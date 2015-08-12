@@ -4,34 +4,24 @@ import {Promise} from 'es6-promise';
 import request from 'request';
 
 let endpoint = null;
-let profile = null;
-let serviceCallback = '';
 
-
-function setServiceCallback() {
-    return endpoint;
-}
 
 /**
  * TODO: Comment this
  */
 export function createUser(params) {
-    return new Promise((resolve, reject) => {
-        const url = endpoint + 'api/Profiles';
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles';
 
-        console.log(params.email, params.password);
-
-        console.log(request.post);
-
-        request.post(
-            {
-                url: url,
-                form: params
-            }, function (err, httpResponse, body) {
-                resolve(httpResponse);
-            }
-        );
-    });
+    request.post(
+      {
+        url: url,
+        form: params
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
 }
 
 /**
@@ -44,16 +34,15 @@ export function createUser(params) {
  */
 export function init(config = null) {
 
-    if (!config || !config.endpoint) {
-        throw new Error('Expected config object but got null or no endpoint provided');
-    }
+  if (!config || !config.endpoint) {
+    throw new Error('Expected config object but got null or no endpoint provided');
+  }
 
-    endpoint = config.endpoint;
-    serviceCallback = setServiceCallback();
+  endpoint = config.endpoint;
 
-    return {createUser};
+  return {createUser};
 }
 
 export const METHODS = {
-    createUser: createUser
+  createUser: createUser
 };
