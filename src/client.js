@@ -5,14 +5,13 @@ import request from 'request';
 
 let endpoint = null;
 
-
 /**
  * TODO: Comment this
  */
-export function createUser(params) {
+export function verifyEmail(params) {
   return new Promise((resolve) => {
-    const url = endpoint + 'api/Profiles';
-
+    const url = endpoint + 'api/Profiles/confirm';
+    console.log(url, params);
     request.post(
       {
         url: url,
@@ -22,7 +21,25 @@ export function createUser(params) {
       }
     );
   });
-}
+};
+
+/**
+ * TODO: Comment this
+ */
+export function createUser(params) {
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles';
+    request.post(
+      {
+        url: url,
+        form: params
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+};
+
 
 /**
  * Setting the necessary paramerters for the client to be usable.
@@ -40,9 +57,10 @@ export function init(config = null) {
 
   endpoint = config.endpoint;
 
-  return {createUser};
+  //return {createUser, verifyEmail};
 }
 
 export const METHODS = {
+  verifyEmail: verifyEmail,
   createUser: createUser
 };
