@@ -3,7 +3,9 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.verifyEmail = verifyEmail;
 exports.createUser = createUser;
+exports.loginUser = loginUser;
 exports.init = init;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -20,10 +22,41 @@ var endpoint = null;
  * TODO: Comment this
  */
 
+function verifyEmail(params) {
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/confirm';
+    _request2['default'].post({
+      url: url,
+      form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * TODO: Comment this
+ */
+
 function createUser(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles';
+    _request2['default'].post({
+      url: url,
+      form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
 
+/**
+ * TODO: Comment this
+ */
+
+function loginUser(params) {
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/login';
     _request2['default'].post({
       url: url,
       form: params
@@ -48,13 +81,12 @@ function init() {
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }
-
   endpoint = config.endpoint;
-
-  return { createUser: createUser };
 }
 
 var METHODS = {
-  createUser: createUser
+  verifyEmail: verifyEmail,
+  createUser: createUser,
+  loginUser: loginUser
 };
 exports.METHODS = METHODS;
