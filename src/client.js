@@ -40,6 +40,25 @@ export function createUser(params) {
   });
 };
 
+/**
+ * TODO: Comment this
+ */
+export function loginUser(params) {
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/login';
+    console.log('client', params);
+    request.post(
+      {
+        url: url,
+        form: params
+      }, function (err, httpResponse) {
+        console.log('REST response', httpResponse.statusCode, httpResponse.statusMessage);
+        resolve(httpResponse);
+      }
+    );
+  });
+};
+
 
 /**
  * Setting the necessary paramerters for the client to be usable.
@@ -62,5 +81,6 @@ export function init(config = null) {
 
 export const METHODS = {
   verifyEmail: verifyEmail,
-  createUser: createUser
+  createUser: createUser,
+  loginUser: loginUser
 };
