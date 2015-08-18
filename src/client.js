@@ -11,7 +11,6 @@ let endpoint = null;
 export function verifyEmail(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/confirm';
-    console.log(url, params);
     request.post(
       {
         url: url,
@@ -21,7 +20,7 @@ export function verifyEmail(params) {
       }
     );
   });
-};
+}
 
 /**
  * TODO: Comment this
@@ -38,7 +37,7 @@ export function createUser(params) {
       }
     );
   });
-};
+}
 
 /**
  * TODO: Comment this
@@ -46,18 +45,16 @@ export function createUser(params) {
 export function loginUser(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/login';
-    console.log('client', params);
     request.post(
       {
         url: url,
         form: params
       }, function (err, httpResponse) {
-        console.log('REST response', httpResponse.statusCode, httpResponse.statusMessage);
         resolve(httpResponse);
       }
     );
   });
-};
+}
 
 
 /**
@@ -73,10 +70,7 @@ export function init(config = null) {
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }
-
   endpoint = config.endpoint;
-
-  //return {createUser, verifyEmail};
 }
 
 export const METHODS = {
