@@ -2,6 +2,7 @@
 
 import {Promise} from 'es6-promise';
 import request from 'request';
+import format from 'util';
 
 let endpoint = null;
 
@@ -39,6 +40,26 @@ export function createUser(params) {
   });
 }
 
+
+/**
+ * TODO: Comment this
+ */
+export function getUser(params) {
+  return new Promise((resolve) => {
+    const uid = params.id;
+    const accessToken = params.accessToken;
+    const url = endpoint + format('api/Profiles/%s?access_token=%s', uid, accessToken);
+    request.get(
+      {
+        url: url
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
 /**
  * TODO: Comment this
  */
@@ -56,6 +77,23 @@ export function loginUser(params) {
   });
 }
 
+
+/**
+ * TODO: Comment this
+ */
+export function logoutUser(params) {
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
+    request.post(
+      {
+        url: url,
+        params: {}
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
 
 /**
  * Setting the necessary paramerters for the client to be usable.
@@ -76,5 +114,7 @@ export function init(config = null) {
 export const METHODS = {
   verifyEmail: verifyEmail,
   createUser: createUser,
-  loginUser: loginUser
+  getUser: getUser,
+  loginUser: loginUser,
+  logoutUser: logoutUser
 };
