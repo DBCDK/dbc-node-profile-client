@@ -2,7 +2,6 @@
 
 import {Promise} from 'es6-promise';
 import request from 'request';
-import format from 'util';
 
 let endpoint = null;
 
@@ -48,7 +47,7 @@ export function getProfile(params) {
   return new Promise((resolve) => {
     const id = params.id;
     const accessToken = params.accessToken;
-    const filter_str = JSON.stringify({include:"likes" });
+    const filter_str = JSON.stringify({include: 'likes'});
     const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     request.get(
       {
