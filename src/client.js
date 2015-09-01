@@ -61,6 +61,26 @@ export function getProfile(params) {
 
 
 /**
+ * Persist Profile to Loopback
+ */
+export function updateProfile(params) {
+  const id = params.id;
+  const accessToken = params.accessToken;
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
+    request.put(
+      {
+        url: url,
+        form: params
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
  * Login Profile in Loopback
  */
 export function loginProfile(params) {
@@ -114,6 +134,7 @@ export function init(config = null) {
 export const METHODS = {
   verifyEmail: verifyEmail,
   createProfile: createProfile,
+  updateProfile: updateProfile,
   getProfile: getProfile,
   loginProfile: loginProfile,
   logoutProfile: logoutProfile
