@@ -1,0 +1,5 @@
+<testsuites name="Mocha Tests">
+<testsuite name="Test methods in client.js" tests="1" failures="0" skipped="0" timestamp="Tue, 01 Sep 2015 11:06:36 GMT" time="0.002">
+<testcase classname="Test methods in client.js" name="makes a dummy test" time="0.001"/>
+</testsuite>
+</testsuites>
