@@ -2,12 +2,11 @@
 
 import {Promise} from 'es6-promise';
 import request from 'request';
-import format from 'util';
 
 let endpoint = null;
 
 /**
- * TODO: Comment this
+ * Verifies a Profile in Loopback using verification token sent by email.
  */
 export function verifyEmail(params) {
   return new Promise((resolve) => {
@@ -24,9 +23,9 @@ export function verifyEmail(params) {
 }
 
 /**
- * TODO: Comment this
+ * Creates a new Profile in Loopback
  */
-export function createUser(params) {
+export function createProfile(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles';
     request.post(
@@ -42,13 +41,14 @@ export function createUser(params) {
 
 
 /**
- * TODO: Comment this
+ * Fetches a Profile in Loopback
  */
-export function getUser(params) {
+export function getProfile(params) {
   return new Promise((resolve) => {
-    const uid = params.id;
+    const id = params.id;
     const accessToken = params.accessToken;
-    const url = endpoint + format('api/Profiles/%s?access_token=%s', uid, accessToken);
+    const filter_str = JSON.stringify({include: 'likes'});
+    const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     request.get(
       {
         url: url
@@ -61,9 +61,29 @@ export function getUser(params) {
 
 
 /**
- * TODO: Comment this
+ * Persist Profile to Loopback
  */
-export function loginUser(params) {
+export function updateProfile(params) {
+  const id = params.id;
+  const accessToken = params.accessToken;
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
+    request.put(
+      {
+        url: url,
+        form: params
+      }, function (err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Login Profile in Loopback
+ */
+export function loginProfile(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/login';
     request.post(
@@ -81,7 +101,7 @@ export function loginUser(params) {
 /**
  * TODO: Comment this
  */
-export function logoutUser(params) {
+export function logoutProfile(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
     request.post(
@@ -113,8 +133,9 @@ export function init(config = null) {
 
 export const METHODS = {
   verifyEmail: verifyEmail,
-  createUser: createUser,
-  getUser: getUser,
-  loginUser: loginUser,
-  logoutUser: logoutUser
+  createProfile: createProfile,
+  updateProfile: updateProfile,
+  getProfile: getProfile,
+  loginProfile: loginProfile,
+  logoutProfile: logoutProfile
 };

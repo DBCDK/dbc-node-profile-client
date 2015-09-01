@@ -4,10 +4,11 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.verifyEmail = verifyEmail;
-exports.createUser = createUser;
-exports.getUser = getUser;
-exports.loginUser = loginUser;
-exports.logoutUser = logoutUser;
+exports.createProfile = createProfile;
+exports.getProfile = getProfile;
+exports.updateProfile = updateProfile;
+exports.loginProfile = loginProfile;
+exports.logoutProfile = logoutProfile;
 exports.init = init;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -18,14 +19,10 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
-var _util = require('util');
-
-var _util2 = _interopRequireDefault(_util);
-
 var endpoint = null;
 
 /**
- * TODO: Comment this
+ * Verifies a Profile in Loopback using verification token sent by email.
  */
 
 function verifyEmail(params) {
@@ -41,10 +38,10 @@ function verifyEmail(params) {
 }
 
 /**
- * TODO: Comment this
+ * Creates a new Profile in Loopback
  */
 
-function createUser(params) {
+function createProfile(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles';
     _request2['default'].post({
@@ -57,14 +54,15 @@ function createUser(params) {
 }
 
 /**
- * TODO: Comment this
+ * Fetches a Profile in Loopback
  */
 
-function getUser(params) {
+function getProfile(params) {
   return new _es6Promise.Promise(function (resolve) {
-    var uid = params.id;
+    var id = params.id;
     var accessToken = params.accessToken;
-    var url = endpoint + (0, _util2['default'])('api/Profiles/%s?access_token=%s', uid, accessToken);
+    var filter_str = JSON.stringify({ include: 'likes' });
+    var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     _request2['default'].get({
       url: url
     }, function (err, httpResponse) {
@@ -74,10 +72,28 @@ function getUser(params) {
 }
 
 /**
- * TODO: Comment this
+ * Persist Profile to Loopback
  */
 
-function loginUser(params) {
+function updateProfile(params) {
+  var id = params.id;
+  var accessToken = params.accessToken;
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
+    _request2['default'].put({
+      url: url,
+      form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Login Profile in Loopback
+ */
+
+function loginProfile(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/login';
     _request2['default'].post({
@@ -93,7 +109,7 @@ function loginUser(params) {
  * TODO: Comment this
  */
 
-function logoutUser(params) {
+function logoutProfile(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
     _request2['default'].post({
@@ -125,9 +141,10 @@ function init() {
 
 var METHODS = {
   verifyEmail: verifyEmail,
-  createUser: createUser,
-  getUser: getUser,
-  loginUser: loginUser,
-  logoutUser: logoutUser
+  createProfile: createProfile,
+  updateProfile: updateProfile,
+  getProfile: getProfile,
+  loginProfile: loginProfile,
+  logoutProfile: logoutProfile
 };
 exports.METHODS = METHODS;
