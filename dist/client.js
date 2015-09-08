@@ -10,6 +10,7 @@ exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
 exports.saveLike = saveLike;
+exports.updateLike = updateLike;
 exports.removeLike = removeLike;
 exports.init = init;
 
@@ -123,6 +124,13 @@ function logoutProfile(params) {
   });
 }
 
+/**
+ * Save a like on a users profile
+ *
+ * @param {object }params
+ * @return {Promise}
+ */
+
 function saveLike(params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
@@ -143,6 +151,39 @@ function saveLike(params) {
   });
 }
 
+/**
+ * Update a like on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
+
+function updateLike(params) {
+  var uid = params.uid;
+  var accessToken = params.accessToken;
+  var value = params.value;
+  var id = params.id;
+
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
+    _request2['default'].put({
+      url: url,
+      form: {
+        value: value
+      }
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Remove a like on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
+
 function removeLike(params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
@@ -150,7 +191,6 @@ function removeLike(params) {
 
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
-    // console.log(url);
     _request2['default'].del({
       url: url,
       form: {}
@@ -186,6 +226,7 @@ var METHODS = {
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
   saveLike: saveLike,
-  removeLike: removeLike
+  removeLike: removeLike,
+  updateLike: updateLike
 };
 exports.METHODS = METHODS;
