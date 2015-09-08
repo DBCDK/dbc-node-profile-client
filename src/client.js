@@ -15,7 +15,7 @@ export function verifyEmail(params) {
       {
         url: url,
         form: params
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -32,7 +32,7 @@ export function createProfile(params) {
       {
         url: url,
         form: params
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -70,7 +70,7 @@ export function updateProfile(params) {
       {
         url: url,
         form: params
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -87,7 +87,7 @@ export function loginProfile(params) {
       {
         url: url,
         form: params
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -104,13 +104,19 @@ export function logoutProfile(params) {
       {
         url: url,
         params: {}
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
   });
 }
 
+/**
+ * Save a like on a users profile
+ *
+ * @param {object }params
+ * @return {Promise}
+ */
 export function saveLike(params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
@@ -126,13 +132,46 @@ export function saveLike(params) {
           item_id: item_id,
           value: value
         }
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
   });
 }
 
+/**
+ * Update a like on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
+export function updateLike(params) {
+  const uid = params.uid;
+  const accessToken = params.accessToken;
+  const value = params.value;
+  const id = params.id;
+
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
+    request.put(
+      {
+        url: url,
+        form: {
+          value: value
+        }
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+/**
+ * Remove a like on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
 export function removeLike(params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
@@ -140,12 +179,11 @@ export function removeLike(params) {
 
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
-    // console.log(url);
     request.del(
       {
         url: url,
         form: {}
-      }, function(err, httpResponse) {
+      }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -176,5 +214,6 @@ export const METHODS = {
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
   saveLike: saveLike,
-  removeLike: removeLike
+  removeLike: removeLike,
+  updateLike: updateLike
 };
