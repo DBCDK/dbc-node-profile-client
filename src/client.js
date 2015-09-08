@@ -15,7 +15,7 @@ export function verifyEmail(params) {
       {
         url: url,
         form: params
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
@@ -32,13 +32,12 @@ export function createProfile(params) {
       {
         url: url,
         form: params
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
   });
 }
-
 
 /**
  * Fetches a Profile in Loopback
@@ -52,13 +51,12 @@ export function getProfile(params) {
     request.get(
       {
         url: url
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
   });
 }
-
 
 /**
  * Persist Profile to Loopback
@@ -72,13 +70,12 @@ export function updateProfile(params) {
       {
         url: url,
         form: params
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
   });
 }
-
 
 /**
  * Login Profile in Loopback
@@ -90,13 +87,12 @@ export function loginProfile(params) {
       {
         url: url,
         form: params
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
   });
 }
-
 
 /**
  * TODO: Comment this
@@ -108,7 +104,48 @@ export function logoutProfile(params) {
       {
         url: url,
         params: {}
-      }, function (err, httpResponse) {
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+export function saveLike(params) {
+  const uid = params.uid;
+  const accessToken = params.accessToken;
+  const item_id = params.item_id;
+  const value = params.value;
+
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
+    request.post(
+      {
+        url: url,
+        form: {
+          item_id: item_id,
+          value: value
+        }
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+export function removeLike(params) {
+  const uid = params.uid;
+  const accessToken = params.accessToken;
+  const id = params.id;
+
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
+    // console.log(url);
+    request.del(
+      {
+        url: url,
+        form: {}
+      }, function(err, httpResponse) {
         resolve(httpResponse);
       }
     );
@@ -137,5 +174,7 @@ export const METHODS = {
   updateProfile: updateProfile,
   getProfile: getProfile,
   loginProfile: loginProfile,
-  logoutProfile: logoutProfile
+  logoutProfile: logoutProfile,
+  saveLike: saveLike,
+  removeLike: removeLike
 };
