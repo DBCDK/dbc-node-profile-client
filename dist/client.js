@@ -9,6 +9,8 @@ exports.getProfile = getProfile;
 exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
+exports.saveLike = saveLike;
+exports.removeLike = removeLike;
 exports.init = init;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -121,6 +123,43 @@ function logoutProfile(params) {
   });
 }
 
+function saveLike(params) {
+  var uid = params.uid;
+  var accessToken = params.accessToken;
+  var item_id = params.item_id;
+  var value = params.value;
+
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
+    _request2['default'].post({
+      url: url,
+      form: {
+        item_id: item_id,
+        value: value
+      }
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+function removeLike(params) {
+  var uid = params.uid;
+  var accessToken = params.accessToken;
+  var id = params.id;
+
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
+    // console.log(url);
+    _request2['default'].del({
+      url: url,
+      form: {}
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
 /**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
@@ -145,6 +184,8 @@ var METHODS = {
   updateProfile: updateProfile,
   getProfile: getProfile,
   loginProfile: loginProfile,
-  logoutProfile: logoutProfile
+  logoutProfile: logoutProfile,
+  saveLike: saveLike,
+  removeLike: removeLike
 };
 exports.METHODS = METHODS;
