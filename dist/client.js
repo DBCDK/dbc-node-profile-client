@@ -85,7 +85,8 @@ function updateProfile(params) {
     var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
     _request2['default'].put({
       url: url,
-      form: params
+      body: JSON.stringify(params),
+      json: true
     }, function (err, httpResponse) {
       resolve(httpResponse);
     });

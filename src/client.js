@@ -69,7 +69,8 @@ export function updateProfile(params) {
     request.put(
       {
         url: url,
-        form: params
+        body: JSON.stringify(params),
+        json: true
       }, (err, httpResponse) => {
         resolve(httpResponse);
       }
