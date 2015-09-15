@@ -11,14 +11,13 @@ let endpoint = null;
 export function verifyEmail(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/confirm';
-    request.post(
-      {
-        url: url,
-        form: params
-      }, (err, httpResponse) => {
-        resolve(httpResponse);
-      }
-    );
+
+    request.get({
+      url: url,
+      qs: params
+    }, (err, httpResponse) => {
+      resolve(httpResponse);
+    });
   });
 }
 
