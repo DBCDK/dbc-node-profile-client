@@ -31,9 +31,10 @@ var endpoint = null;
 function verifyEmail(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/confirm';
-    _request2['default'].post({
+
+    _request2['default'].get({
       url: url,
-      form: params
+      qs: params
     }, function (err, httpResponse) {
       resolve(httpResponse);
     });
