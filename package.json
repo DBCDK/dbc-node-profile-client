@@ -1,6 +1,6 @@
 {
   "name": "dbc-node-profile-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Client for the DBC profile service",
   "main": "index.js",
   "scripts": {
