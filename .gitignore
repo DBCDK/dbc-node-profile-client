@@ -3,6 +3,7 @@
 # Logs
 logs
 *.log
+mocha-test.xml
 
 # Runtime data
 pids
