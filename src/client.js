@@ -57,25 +57,65 @@ export function getProfile(params) {
   });
 }
 
+
 /**
- * Persist Profile to Loopback
+ * Fetches a Group in Loopback
  */
-export function updateProfile(params) {
-  const id = params.id;
-  const accessToken = params.accessToken;
+export function getGroup(params) {
   return new Promise((resolve) => {
-    const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
-    request.put(
+    const id = params.id;
+    const accessToken = params.accessToken;
+    const filter_str = JSON.stringify({include: 'posts'});
+    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    request.get(
+      {
+        url: url
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Creates a new Group in Loopback
+ */
+export function createGroup(params) {
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Groups';
+    request.post(
       {
         url: url,
-        body: JSON.stringify(params),
-        json: true
+        form: params
       }, (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
   });
 }
+
+
+
+/**
+ * Fetches a Group in Loopback
+ */
+export function getGroup(params) {
+  return new Promise((resolve) => {
+    const id = params.id;
+    const accessToken = params.accessToken;
+    const filter_str = JSON.stringify({include: 'posts'});
+    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    request.get(
+      {
+        url: url
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
 
 /**
  * Login Profile in Loopback
@@ -213,6 +253,8 @@ export const METHODS = {
   getProfile: getProfile,
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
+  getGroup: getGroup,
+  createGroup: createGroup,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
