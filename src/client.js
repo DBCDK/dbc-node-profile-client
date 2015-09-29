@@ -95,8 +95,6 @@ export function createGroup(params) {
   });
 }
 
-
-
 /**
  * Fetches a Group in Loopback
  */
@@ -116,6 +114,26 @@ export function getGroup(params) {
   });
 }
 
+
+/**
+ * Persist Profile to Loopback
+ */
+export function updateProfile(params) {
+  const id = params.id;
+  const accessToken = params.accessToken;
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
+    request.put(
+      {
+        url: url,
+        body: JSON.stringify(params),
+        json: true
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
 
 /**
  * Login Profile in Loopback
