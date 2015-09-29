@@ -57,6 +57,64 @@ export function getProfile(params) {
   });
 }
 
+
+/**
+ * Fetches a Group in Loopback
+ */
+export function getGroup(params) {
+  return new Promise((resolve) => {
+    const id = params.id;
+    const accessToken = params.accessToken;
+    const filter_str = JSON.stringify({include: 'posts'});
+    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    request.get(
+      {
+        url: url
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Creates a new Group in Loopback
+ */
+export function createGroup(params) {
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Groups';
+    request.post(
+      {
+        url: url,
+        form: params
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+/**
+ * Fetches a Group in Loopback
+ */
+export function getGroup(params) {
+  return new Promise((resolve) => {
+    const id = params.id;
+    const accessToken = params.accessToken;
+    const filter_str = JSON.stringify({include: 'posts'});
+    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    request.get(
+      {
+        url: url
+      }, function(err, httpResponse) {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
 /**
  * Persist Profile to Loopback
  */
@@ -213,6 +271,8 @@ export const METHODS = {
   getProfile: getProfile,
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
+  getGroup: getGroup,
+  createGroup: createGroup,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
