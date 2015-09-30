@@ -112,6 +112,92 @@ export function queryGroups(params) {
 }
 
 /**
+ * Create a Post
+ */
+export function createGroupPost(params) {
+  return new Promise((resolve, reject) => {
+    const accessToken = params.accessToken;
+    const groupId = params.groupId;
+    const url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
+    const postBody = {
+      title: params.title,
+      content: params.content,
+      timeCreated: (new Date()).toUTCString()
+    };
+    request.post({
+      url,
+      json: true,
+      body: JSON.stringify(postBody)
+    }, (err, res) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Gets a specific Post
+ */
+export function getGroupPost(params) {
+  return new Promise((resolve, reject) => {
+    const accessToken = params.accessToken;
+    const postId = params.postId;
+    const filter_str = JSON.stringify({include: ['comments']});
+    const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken + '&filter=' + filter_str;
+    request.get({url}, (err, res) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Update a specific Post
+ */
+export function updateGroupPost(params) {
+  return new Promise((resolve, reject) => {
+    const accessToken = params.accessToken;
+    const postId = params.postId;
+    const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
+    const putBody = {
+      title: params.title,
+      content: params.content
+    };
+    request.put({
+      url,
+      json: true,
+      body: JSON.stringify(putBody)
+    }, (err, res) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Delete a specific Post
+ */
+export function deleteGroupPost(params) {
+  return new Promise((resolve) => {
+    const accessToken = params.accessToken;
+    const postId = params.postId;
+    const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
+    request.delete({url}, (err, res) => {
+      resolve(res.statusCode === 204);
+    });
+  });
+}
+
+/**
  * Persist Profile to Loopback
  */
 export function updateProfile(params) {
