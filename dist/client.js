@@ -12,7 +12,7 @@ exports.queryGroups = queryGroups;
 exports.createGroupPost = createGroupPost;
 exports.getGroupPost = getGroupPost;
 exports.updateGroupPost = updateGroupPost;
-exports.deleteGroupPost = deleteGroupPost;
+exports.removeGroupPost = removeGroupPost;
 exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
@@ -214,7 +214,7 @@ function updateGroupPost(params) {
  * Delete a specific Post
  */
 
-function deleteGroupPost(params) {
+function removeGroupPost(params) {
   return new _es6Promise.Promise(function (resolve) {
     var accessToken = params.accessToken;
     var postId = params.postId;
@@ -380,6 +380,10 @@ var METHODS = {
   getGroup: getGroup,
   createGroup: createGroup,
   queryGroups: queryGroups,
+  createGroupPost: createGroupPost,
+  getGroupPost: getGroupPost,
+  updateGroupPost: updateGroupPost,
+  removeGroupPost: removeGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
