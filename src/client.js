@@ -356,6 +356,10 @@ export const METHODS = {
   getGroup: getGroup,
   createGroup: createGroup,
   queryGroups: queryGroups,
+  createGroupPost: createGroupPost,
+  getGroupPost: getGroupPost,
+  updateGroupPost: updateGroupPost,
+  removeGroupPost: deleteGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
