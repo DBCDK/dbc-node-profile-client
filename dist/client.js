@@ -6,9 +6,9 @@ Object.defineProperty(exports, '__esModule', {
 exports.verifyEmail = verifyEmail;
 exports.createProfile = createProfile;
 exports.getProfile = getProfile;
-exports.getGroup = getGroup;
 exports.createGroup = createGroup;
 exports.getGroup = getGroup;
+exports.queryGroups = queryGroups;
 exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
@@ -79,24 +79,6 @@ function getProfile(params) {
 }
 
 /**
- * Fetches a Group in Loopback
- */
-
-function getGroup(params) {
-  return new _es6Promise.Promise(function (resolve) {
-    var id = params.id;
-    var accessToken = params.accessToken;
-    var filter_str = JSON.stringify({ include: 'posts' });
-    var url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
-    _request2['default'].get({
-      url: url
-    }, function (err, httpResponse) {
-      resolve(httpResponse);
-    });
-  });
-}
-
-/**
  * Creates a new Group in Loopback
  */
 
@@ -126,6 +108,25 @@ function getGroup(params) {
       url: url
     }, function (err, httpResponse) {
       resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Searches through Groups in Loopback
+ */
+
+function queryGroups(params) {
+  return new _es6Promise.Promise(function (resolve, reject) {
+    var accessToken = params.accessToken;
+    var filter_str = JSON.stringify({ where: { name: { regexp: params.query + '/i' } } });
+    var url = endpoint + 'api/Groups?access_token=' + accessToken + '&filter=' + filter_str;
+    _request2['default'].get({ url: url }, function (err, res) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
     });
   });
 }
@@ -284,6 +285,7 @@ var METHODS = {
   logoutProfile: logoutProfile,
   getGroup: getGroup,
   createGroup: createGroup,
+  queryGroups: queryGroups,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
