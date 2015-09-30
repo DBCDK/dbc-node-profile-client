@@ -186,7 +186,7 @@ export function updateGroupPost(params) {
 /**
  * Delete a specific Post
  */
-export function deleteGroupPost(params) {
+export function removeGroupPost(params) {
   return new Promise((resolve) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
@@ -359,7 +359,7 @@ export const METHODS = {
   createGroupPost: createGroupPost,
   getGroupPost: getGroupPost,
   updateGroupPost: updateGroupPost,
-  removeGroupPost: deleteGroupPost,
+  removeGroupPost: removeGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
