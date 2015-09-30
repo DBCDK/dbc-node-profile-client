@@ -119,7 +119,7 @@ function getGroup(params) {
 function queryGroups(params) {
   return new _es6Promise.Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
-    var filter_str = JSON.stringify({ where: { name: { regexp: params.query + '/i' } } });
+    var filter_str = JSON.stringify({ where: { name: { regexp: params.query + '/i' } }, include: ['members'] });
     var url = endpoint + 'api/Groups?access_token=' + accessToken + '&filter=' + filter_str;
     _request2['default'].get({ url: url }, function (err, res) {
       if (err) {

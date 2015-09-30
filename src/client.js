@@ -99,7 +99,7 @@ export function getGroup(params) {
 export function queryGroups(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
-    const filter_str = JSON.stringify({where: {name: {regexp: params.query + '/i'}}});
+    const filter_str = JSON.stringify({where: {name: {regexp: params.query + '/i'}}, include: ['members']});
     const url = endpoint + 'api/Groups?access_token=' + accessToken + '&filter=' + filter_str;
     request.get({url}, (err, res) => {
       if (err) {
