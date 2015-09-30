@@ -9,6 +9,10 @@ exports.getProfile = getProfile;
 exports.createGroup = createGroup;
 exports.getGroup = getGroup;
 exports.queryGroups = queryGroups;
+exports.createGroupPost = createGroupPost;
+exports.getGroupPost = getGroupPost;
+exports.updateGroupPost = updateGroupPost;
+exports.deleteGroupPost = deleteGroupPost;
 exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
@@ -127,6 +131,96 @@ function queryGroups(params) {
       }
 
       resolve(res);
+    });
+  });
+}
+
+/**
+ * Create a Post
+ */
+
+function createGroupPost(params) {
+  return new _es6Promise.Promise(function (resolve, reject) {
+    var accessToken = params.accessToken;
+    var groupId = params.groupId;
+    var url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
+    var postBody = {
+      title: params.title,
+      content: params.content,
+      timeCreated: new Date().toUTCString()
+    };
+    _request2['default'].post({
+      url: url,
+      json: true,
+      body: JSON.stringify(postBody)
+    }, function (err, res) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Gets a specific Post
+ */
+
+function getGroupPost(params) {
+  return new _es6Promise.Promise(function (resolve, reject) {
+    var accessToken = params.accessToken;
+    var postId = params.postId;
+    var filter_str = JSON.stringify({ include: ['comments'] });
+    var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken + '&filter=' + filter_str;
+    _request2['default'].get({ url: url }, function (err, res) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Update a specific Post
+ */
+
+function updateGroupPost(params) {
+  return new _es6Promise.Promise(function (resolve, reject) {
+    var accessToken = params.accessToken;
+    var postId = params.postId;
+    var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
+    var putBody = {
+      title: params.title,
+      content: params.content
+    };
+    _request2['default'].put({
+      url: url,
+      json: true,
+      body: JSON.stringify(putBody)
+    }, function (err, res) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Delete a specific Post
+ */
+
+function deleteGroupPost(params) {
+  return new _es6Promise.Promise(function (resolve) {
+    var accessToken = params.accessToken;
+    var postId = params.postId;
+    var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
+    _request2['default']['delete']({ url: url }, function (err, res) {
+      resolve(res.statusCode === 204);
     });
   });
 }
