@@ -13,6 +13,7 @@ exports.createGroupPost = createGroupPost;
 exports.getGroupPost = getGroupPost;
 exports.updateGroupPost = updateGroupPost;
 exports.removeGroupPost = removeGroupPost;
+exports.commentOnGroupPost = commentOnGroupPost;
 exports.updateProfile = updateProfile;
 exports.loginProfile = loginProfile;
 exports.logoutProfile = logoutProfile;
@@ -229,6 +230,36 @@ function removeGroupPost(params) {
 }
 
 /**
+ * Comments on a post
+ */
+
+function commentOnGroupPost(params) {
+  return new _es6Promise.Promise(function (resolve, reject) {
+    var accessToken = params.accessToken;
+    var postId = params.postId;
+    var uid = params.uid;
+    var commentContent = params.commentText;
+    var url = endpoint + 'api/Comments?access_token' + accessToken;
+    _request2['default'].post({
+      url: url,
+      json: true,
+      body: JSON.stringify({
+        content: commentContent,
+        timeCreated: new Date().toUTCString(),
+        commentownerid: uid,
+        postid: postId
+      })
+    }, function (err, resp) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(resp);
+    });
+  });
+}
+
+/**
  * Persist Profile to Loopback
  */
 
@@ -387,6 +418,7 @@ var METHODS = {
   getGroupPost: getGroupPost,
   updateGroupPost: updateGroupPost,
   removeGroupPost: removeGroupPost,
+  commentOnGroupPost: commentOnGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike

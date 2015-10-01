@@ -201,6 +201,35 @@ export function removeGroupPost(params) {
 }
 
 /**
+ * Comments on a post
+ */
+export function commentOnGroupPost(params) {
+  return new Promise((resolve, reject) => {
+    const accessToken = params.accessToken;
+    const postId = params.postId;
+    const uid = params.uid;
+    const commentContent = params.commentText;
+    const url = endpoint + 'api/Comments?access_token' + accessToken;
+    request.post({
+      url,
+      json: true,
+      body: JSON.stringify({
+        content: commentContent,
+        timeCreated: (new Date()).toUTCString(),
+        commentownerid: uid,
+        postid: postId
+      })
+    }, (err, resp) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(resp);
+    });
+  });
+}
+
+/**
  * Persist Profile to Loopback
  */
 export function updateProfile(params) {
@@ -363,6 +392,7 @@ export const METHODS = {
   getGroupPost: getGroupPost,
   updateGroupPost: updateGroupPost,
   removeGroupPost: removeGroupPost,
+  commentOnGroupPost: commentOnGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
