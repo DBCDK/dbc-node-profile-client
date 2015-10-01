@@ -118,12 +118,14 @@ export function queryGroups(params) {
 export function createGroupPost(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
+    const uid = params.uid;
     const groupId = params.groupId;
     const url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
     const postBody = {
       title: params.title,
       content: params.content,
-      timeCreated: (new Date()).toUTCString()
+      timeCreated: (new Date()).toUTCString(),
+      owner: uid
     };
     request.post({
       url,
@@ -146,7 +148,7 @@ export function getGroupPost(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
-    const filter_str = JSON.stringify({include: ['comments']});
+    const filter_str = JSON.stringify({include: ['owner', {comments: ['owner']}]});
     const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken + '&filter=' + filter_str;
     request.get({url}, (err, res) => {
       if (err) {
