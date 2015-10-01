@@ -143,12 +143,14 @@ function queryGroups(params) {
 function createGroupPost(params) {
   return new _es6Promise.Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
+    var uid = params.uid;
     var groupId = params.groupId;
     var url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
     var postBody = {
       title: params.title,
       content: params.content,
-      timeCreated: new Date().toUTCString()
+      timeCreated: new Date().toUTCString(),
+      owner: uid
     };
     _request2['default'].post({
       url: url,
@@ -172,7 +174,7 @@ function getGroupPost(params) {
   return new _es6Promise.Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
-    var filter_str = JSON.stringify({ include: ['comments'] });
+    var filter_str = JSON.stringify({ include: ['owner', { comments: ['owner'] }] });
     var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken + '&filter=' + filter_str;
     _request2['default'].get({ url: url }, function (err, res) {
       if (err) {
