@@ -106,9 +106,8 @@ function createGroup(params) {
 function getGroup(params) {
   return new _es6Promise.Promise(function (resolve) {
     var id = params.id;
-    var accessToken = params.accessToken;
-    var filter_str = JSON.stringify({ include: 'posts' });
-    var url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    var filter_str = JSON.stringify({ include: ['posts', 'members'] });
+    var url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
     _request2['default'].get({
       url: url
     }, function (err, httpResponse) {
