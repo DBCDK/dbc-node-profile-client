@@ -117,12 +117,14 @@ export function queryGroups(params) {
 export function createGroupPost(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
+    const uid = params.uid;
     const groupId = params.groupId;
     const url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
     const postBody = {
       title: params.title,
       content: params.content,
-      timeCreated: (new Date()).toUTCString()
+      timeCreated: (new Date()).toUTCString(),
+      owner: uid
     };
     request.post({
       url,
@@ -145,7 +147,7 @@ export function getGroupPost(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
-    const filter_str = JSON.stringify({include: ['comments']});
+    const filter_str = JSON.stringify({include: ['owner', {comments: ['owner']}]});
     const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken + '&filter=' + filter_str;
     request.get({url}, (err, res) => {
       if (err) {
@@ -193,6 +195,35 @@ export function removeGroupPost(params) {
     const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
     request.delete({url}, (err, res) => {
       resolve(res.statusCode === 204);
+    });
+  });
+}
+
+/**
+ * Comments on a post
+ */
+export function commentOnGroupPost(params) {
+  return new Promise((resolve, reject) => {
+    const accessToken = params.accessToken;
+    const postId = params.postId;
+    const uid = params.uid;
+    const commentContent = params.commentText;
+    const url = endpoint + 'api/Comments?access_token' + accessToken;
+    request.post({
+      url,
+      json: true,
+      body: JSON.stringify({
+        content: commentContent,
+        timeCreated: (new Date()).toUTCString(),
+        commentownerid: uid,
+        postid: postId
+      })
+    }, (err, resp) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(resp);
     });
   });
 }
@@ -360,6 +391,7 @@ export const METHODS = {
   getGroupPost: getGroupPost,
   updateGroupPost: updateGroupPost,
   removeGroupPost: removeGroupPost,
+  commentOnGroupPost: commentOnGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike
