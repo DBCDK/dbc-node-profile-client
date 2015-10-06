@@ -80,9 +80,8 @@ export function createGroup(params) {
 export function getGroup(params) {
   return new Promise((resolve) => {
     const id = params.id;
-    const accessToken = params.accessToken;
-    const filter_str = JSON.stringify({include: 'posts'});
-    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
+    const filter_str = JSON.stringify({include: ['posts', 'members']});
+    const url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
     request.get(
       {
         url: url
