@@ -20,6 +20,7 @@ exports.logoutProfile = logoutProfile;
 exports.saveLike = saveLike;
 exports.updateLike = updateLike;
 exports.removeLike = removeLike;
+exports.resetLikes = resetLikes;
 exports.init = init;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -386,6 +387,28 @@ function removeLike(params) {
 }
 
 /**
+ * Remove all likes on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
+
+function resetLikes(params) {
+  var uid = params.uid;
+  var accessToken = params.accessToken;
+
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
+    _request2['default'].del({
+      url: url,
+      form: {}
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -420,6 +443,7 @@ var METHODS = {
   commentOnGroupPost: commentOnGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
-  updateLike: updateLike
+  updateLike: updateLike,
+  resetLikes: resetLikes
 };
 exports.METHODS = METHODS;
