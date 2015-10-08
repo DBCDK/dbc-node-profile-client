@@ -106,8 +106,8 @@ function createGroup(params) {
 
 function getGroup(params) {
   return new _es6Promise.Promise(function (resolve) {
-    var id = params.id;
-    var filter_str = JSON.stringify({ include: ['posts', 'members'] });
+    var id = params.id; // {include: ['owner', {comments: ['owner']}]}
+    var filter_str = JSON.stringify({ include: [{ posts: ['owner', { comments: ['owner'] }] }, 'members'] });
     var url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
     _request2['default'].get({
       url: url
