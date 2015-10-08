@@ -362,6 +362,29 @@ export function removeLike(params) {
 }
 
 /**
+ * Remove all likes on a users profile
+ *
+ * @param {object} params
+ * @return {Promise}
+ */
+export function resetLikes(params) {
+  const uid = params.uid;
+  const accessToken = params.accessToken;
+
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
+    request.del(
+      {
+        url: url,
+        form: {}
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -394,5 +417,6 @@ export const METHODS = {
   commentOnGroupPost: commentOnGroupPost,
   saveLike: saveLike,
   removeLike: removeLike,
-  updateLike: updateLike
+  updateLike: updateLike,
+  resetLikes: resetLikes
 };
