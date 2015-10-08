@@ -79,8 +79,8 @@ export function createGroup(params) {
  */
 export function getGroup(params) {
   return new Promise((resolve) => {
-    const id = params.id;
-    const filter_str = JSON.stringify({include: ['posts', 'members']});
+    const id = params.id; // {include: ['owner', {comments: ['owner']}]}
+    const filter_str = JSON.stringify({include: [{'posts': ['owner', {comments: ['owner']}]}, 'members']});
     const url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
     request.get(
       {
