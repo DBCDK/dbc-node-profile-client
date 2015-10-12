@@ -153,10 +153,11 @@ function createGroupPost(params) {
       timeCreated: new Date().toUTCString(),
       owner: uid
     };
+
     _request2['default'].post({
       url: url,
       json: true,
-      body: JSON.stringify(postBody)
+      body: postBody
     }, function (err, res) {
       if (err) {
         reject(err);

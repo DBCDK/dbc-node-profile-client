@@ -126,10 +126,11 @@ export function createGroupPost(params) {
       timeCreated: (new Date()).toUTCString(),
       owner: uid
     };
+
     request.post({
       url,
       json: true,
-      body: JSON.stringify(postBody)
+      body: postBody
     }, (err, res) => {
       if (err) {
         reject(err);
