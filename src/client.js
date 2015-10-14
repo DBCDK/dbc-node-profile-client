@@ -74,6 +74,28 @@ export function createGroup(params) {
   });
 }
 
+
+/**
+ * Persist Group to Loopback
+ */
+export function updateGroup(params) {
+  const id = params.id;
+  const accessToken = params.accessToken;
+  return new Promise((resolve) => {
+    const url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken;
+    request.put(
+      {
+        url: url,
+        body: JSON.stringify(params),
+        json: true
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
 /**
  * Fetches a Group in Loopback
  */
@@ -410,6 +432,7 @@ export const METHODS = {
   logoutProfile: logoutProfile,
   getGroup: getGroup,
   createGroup: createGroup,
+  updateGroup: updateGroup,
   queryGroups: queryGroups,
   createGroupPost: createGroupPost,
   getGroupPost: getGroupPost,

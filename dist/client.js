@@ -7,6 +7,7 @@ exports.verifyEmail = verifyEmail;
 exports.createProfile = createProfile;
 exports.getProfile = getProfile;
 exports.createGroup = createGroup;
+exports.updateGroup = updateGroup;
 exports.getGroup = getGroup;
 exports.queryGroups = queryGroups;
 exports.createGroupPost = createGroupPost;
@@ -94,6 +95,25 @@ function createGroup(params) {
     _request2['default'].post({
       url: url,
       form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Persist Group to Loopback
+ */
+
+function updateGroup(params) {
+  var id = params.id;
+  var accessToken = params.accessToken;
+  return new _es6Promise.Promise(function (resolve) {
+    var url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken;
+    _request2['default'].put({
+      url: url,
+      body: JSON.stringify(params),
+      json: true
     }, function (err, httpResponse) {
       resolve(httpResponse);
     });
@@ -436,6 +456,7 @@ var METHODS = {
   logoutProfile: logoutProfile,
   getGroup: getGroup,
   createGroup: createGroup,
+  updateGroup: updateGroup,
   queryGroups: queryGroups,
   createGroupPost: createGroupPost,
   getGroupPost: getGroupPost,
