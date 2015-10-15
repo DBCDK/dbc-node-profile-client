@@ -139,7 +139,6 @@ export function queryGroups(params) {
 export function createGroupPost(params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
-    const uid = params.uid;
     const groupId = params.groupId;
     const url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
     const postBody = {
