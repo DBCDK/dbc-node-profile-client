@@ -146,7 +146,7 @@ export function createGroupPost(params) {
       title: params.title,
       content: params.content,
       timeCreated: (new Date()).toUTCString(),
-      owner: uid
+      postownerid: params.postownerid
     };
 
     request.post({
