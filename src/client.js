@@ -45,7 +45,7 @@ export function getProfile(params) {
   return new Promise((resolve) => {
     const id = params.id;
     const accessToken = params.accessToken;
-    const filter_str = JSON.stringify({include: 'likes'});
+    const filter_str = JSON.stringify({include: ['likes', 'groups']});
     const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     request.get(
       {
@@ -64,6 +64,46 @@ export function createGroup(params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Groups';
     request.post(
+      {
+        url: url,
+        form: params
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Makes a Profile member of a Group in Loopback
+ */
+export function joinGroup(params) {
+  return new Promise((resolve) => {
+    const groupId = params.groupId;
+    const memberId = params.memberId;
+    const url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    request.put(
+      {
+        url: url,
+        form: params
+      }, (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Remove a Profile member from a Group in Loopback
+ */
+export function leaveGroup(params) {
+  return new Promise((resolve) => {
+    const groupId = params.groupId;
+    const memberId = params.memberId;
+    const url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    request.del(
       {
         url: url,
         form: params
@@ -215,7 +255,7 @@ export function removeGroupPost(params) {
     const accessToken = params.accessToken;
     const postId = params.postId;
     const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
-    request.delete({url}, (err, res) => {
+    request.del({url}, (err, res) => {
       resolve(res.statusCode === 204);
     });
   });
@@ -430,6 +470,8 @@ export const METHODS = {
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
   getGroup: getGroup,
+  joinGroup: joinGroup,
+  leaveGroup: leaveGroup,
   createGroup: createGroup,
   updateGroup: updateGroup,
   queryGroups: queryGroups,
