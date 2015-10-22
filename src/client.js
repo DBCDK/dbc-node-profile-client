@@ -31,7 +31,8 @@ export function createProfile(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -45,12 +46,13 @@ export function getProfile(params) {
   return new Promise((resolve) => {
     const id = params.id;
     const accessToken = params.accessToken;
-    const filter_str = JSON.stringify({include: 'likes'});
+    const filter_str = JSON.stringify({include: ['likes', 'groups']});
     const url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     request.get(
       {
         url: url
-      }, function(err, httpResponse) {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -67,7 +69,50 @@ export function createGroup(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Makes a Profile member of a Group in Loopback
+ */
+export function joinGroup(params) {
+  return new Promise((resolve) => {
+    const groupId = params.groupId;
+    const memberId = params.memberId;
+    const url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    request.put(
+      {
+        url: url,
+        form: params
+      },
+      (err, httpResponse) => {
+        resolve(httpResponse);
+      }
+    );
+  });
+}
+
+
+/**
+ * Remove a Profile member from a Group in Loopback
+ */
+export function leaveGroup(params) {
+  return new Promise((resolve) => {
+    const groupId = params.groupId;
+    const memberId = params.memberId;
+    const url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    request.del(
+      {
+        url: url,
+        form: params
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -88,7 +133,8 @@ export function updateGroup(params) {
         url: url,
         body: JSON.stringify(params),
         json: true
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -107,7 +153,8 @@ export function getGroup(params) {
     request.get(
       {
         url: url
-      }, function(err, httpResponse) {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -127,7 +174,6 @@ export function queryGroups(params) {
       if (err) {
         reject(err);
       }
-
       resolve(res);
     });
   });
@@ -215,7 +261,7 @@ export function removeGroupPost(params) {
     const accessToken = params.accessToken;
     const postId = params.postId;
     const url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
-    request.delete({url}, (err, res) => {
+    request.del({url}, (err, res) => {
       resolve(res.statusCode === 204);
     });
   });
@@ -263,7 +309,8 @@ export function updateProfile(params) {
         url: url,
         body: JSON.stringify(params),
         json: true
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -280,7 +327,8 @@ export function loginProfile(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -297,7 +345,8 @@ export function logoutProfile(params) {
       {
         url: url,
         params: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -325,7 +374,8 @@ export function saveLike(params) {
           item_id: item_id,
           value: value
         }
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -352,7 +402,8 @@ export function updateLike(params) {
         form: {
           value: value
         }
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -376,7 +427,8 @@ export function removeLike(params) {
       {
         url: url,
         form: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -399,7 +451,8 @@ export function resetLikes(params) {
       {
         url: url,
         form: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -430,6 +483,8 @@ export const METHODS = {
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
   getGroup: getGroup,
+  joinGroup: joinGroup,
+  leaveGroup: leaveGroup,
   createGroup: createGroup,
   updateGroup: updateGroup,
   queryGroups: queryGroups,
