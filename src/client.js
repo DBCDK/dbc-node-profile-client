@@ -31,7 +31,8 @@ export function createProfile(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -50,7 +51,8 @@ export function getProfile(params) {
     request.get(
       {
         url: url
-      }, function(err, httpResponse) {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -67,7 +69,8 @@ export function createGroup(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -87,7 +90,8 @@ export function joinGroup(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -107,7 +111,8 @@ export function leaveGroup(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -128,7 +133,8 @@ export function updateGroup(params) {
         url: url,
         body: JSON.stringify(params),
         json: true
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -147,7 +153,8 @@ export function getGroup(params) {
     request.get(
       {
         url: url
-      }, function(err, httpResponse) {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -167,7 +174,6 @@ export function queryGroups(params) {
       if (err) {
         reject(err);
       }
-
       resolve(res);
     });
   });
@@ -303,7 +309,8 @@ export function updateProfile(params) {
         url: url,
         body: JSON.stringify(params),
         json: true
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -320,7 +327,8 @@ export function loginProfile(params) {
       {
         url: url,
         form: params
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -337,7 +345,8 @@ export function logoutProfile(params) {
       {
         url: url,
         params: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -365,7 +374,8 @@ export function saveLike(params) {
           item_id: item_id,
           value: value
         }
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -392,7 +402,8 @@ export function updateLike(params) {
         form: {
           value: value
         }
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -416,7 +427,8 @@ export function removeLike(params) {
       {
         url: url,
         form: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
@@ -439,7 +451,8 @@ export function resetLikes(params) {
       {
         url: url,
         form: {}
-      }, (err, httpResponse) => {
+      },
+      (err, httpResponse) => {
         resolve(httpResponse);
       }
     );
