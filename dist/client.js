@@ -7,6 +7,8 @@ exports.verifyEmail = verifyEmail;
 exports.createProfile = createProfile;
 exports.getProfile = getProfile;
 exports.createGroup = createGroup;
+exports.joinGroup = joinGroup;
+exports.leaveGroup = leaveGroup;
 exports.updateGroup = updateGroup;
 exports.getGroup = getGroup;
 exports.queryGroups = queryGroups;
@@ -75,7 +77,7 @@ function getProfile(params) {
   return new _es6Promise.Promise(function (resolve) {
     var id = params.id;
     var accessToken = params.accessToken;
-    var filter_str = JSON.stringify({ include: 'likes' });
+    var filter_str = JSON.stringify({ include: ['likes', 'groups'] });
     var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken + '&filter=' + filter_str;
     _request2['default'].get({
       url: url
@@ -93,6 +95,42 @@ function createGroup(params) {
   return new _es6Promise.Promise(function (resolve) {
     var url = endpoint + 'api/Groups';
     _request2['default'].post({
+      url: url,
+      form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Makes a Profile member of a Group in Loopback
+ */
+
+function joinGroup(params) {
+  return new _es6Promise.Promise(function (resolve) {
+    var groupId = params.groupId;
+    var memberId = params.memberId;
+    var url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    _request2['default'].put({
+      url: url,
+      form: params
+    }, function (err, httpResponse) {
+      resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Remove a Profile member from a Group in Loopback
+ */
+
+function leaveGroup(params) {
+  return new _es6Promise.Promise(function (resolve) {
+    var groupId = params.groupId;
+    var memberId = params.memberId;
+    var url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
+    _request2['default'].del({
       url: url,
       form: params
     }, function (err, httpResponse) {
@@ -151,7 +189,6 @@ function queryGroups(params) {
       if (err) {
         reject(err);
       }
-
       resolve(res);
     });
   });
@@ -243,7 +280,7 @@ function removeGroupPost(params) {
     var accessToken = params.accessToken;
     var postId = params.postId;
     var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
-    _request2['default']['delete']({ url: url }, function (err, res) {
+    _request2['default'].del({ url: url }, function (err, res) {
       resolve(res.statusCode === 204);
     });
   });
@@ -454,6 +491,8 @@ var METHODS = {
   loginProfile: loginProfile,
   logoutProfile: logoutProfile,
   getGroup: getGroup,
+  joinGroup: joinGroup,
+  leaveGroup: leaveGroup,
   createGroup: createGroup,
   updateGroup: updateGroup,
   queryGroups: queryGroups,
