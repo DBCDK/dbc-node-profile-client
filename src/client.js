@@ -307,7 +307,7 @@ export function updateProfile(params) {
     request.put(
       {
         url: url,
-        body: JSON.stringify(params),
+        body: params,
         json: true
       },
       (err, httpResponse) => {
