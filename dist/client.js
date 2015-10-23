@@ -327,7 +327,7 @@ function updateProfile(params) {
     var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
     _request2['default'].put({
       url: url,
-      body: JSON.stringify(params),
+      body: params,
       json: true
     }, function (err, httpResponse) {
       resolve(httpResponse);
