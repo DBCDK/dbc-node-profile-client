@@ -24,11 +24,10 @@ exports.saveLike = saveLike;
 exports.updateLike = updateLike;
 exports.removeLike = removeLike;
 exports.resetLikes = resetLikes;
+exports.findMobilSoegProfile = findMobilSoegProfile;
 exports.init = init;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _es6Promise = require('es6-promise');
 
 var _request = require('request');
 
@@ -41,7 +40,7 @@ var endpoint = null;
  */
 
 function verifyEmail(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/confirm';
 
     _request2['default'].get({
@@ -58,7 +57,7 @@ function verifyEmail(params) {
  */
 
 function createProfile(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles';
     _request2['default'].post({
       url: url,
@@ -74,7 +73,7 @@ function createProfile(params) {
  */
 
 function getProfile(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var id = params.id;
     var accessToken = params.accessToken;
     var filter_str = JSON.stringify({ include: ['likes', 'groups'] });
@@ -92,7 +91,7 @@ function getProfile(params) {
  */
 
 function createGroup(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Groups';
     _request2['default'].post({
       url: url,
@@ -108,7 +107,7 @@ function createGroup(params) {
  */
 
 function joinGroup(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var groupId = params.groupId;
     var memberId = params.memberId;
     var url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
@@ -126,7 +125,7 @@ function joinGroup(params) {
  */
 
 function leaveGroup(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var groupId = params.groupId;
     var memberId = params.memberId;
     var url = endpoint + 'api/Groups/' + groupId + '/members/rel/' + memberId;
@@ -146,7 +145,7 @@ function leaveGroup(params) {
 function updateGroup(params) {
   var id = params.id;
   var accessToken = params.accessToken;
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Groups/' + id + '?access_token=' + accessToken;
     _request2['default'].put({
       url: url,
@@ -163,7 +162,7 @@ function updateGroup(params) {
  */
 
 function getGroup(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var id = params.id; // {include: ['owner', {comments: ['owner']}]}
     var filter_str = JSON.stringify({ include: [{ posts: ['owner', { comments: ['owner'] }] }, 'members'] });
     var url = endpoint + 'api/Groups/' + id + '?filter=' + filter_str;
@@ -180,7 +179,7 @@ function getGroup(params) {
  */
 
 function queryGroups(params) {
-  return new _es6Promise.Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var pattern = new RegExp('.*' + params.query + '.*', 'i');
     var filter_str = JSON.stringify({ where: { name: { regexp: pattern.toString() } }, include: ['members'] });
@@ -199,7 +198,7 @@ function queryGroups(params) {
  */
 
 function createGroupPost(params) {
-  return new _es6Promise.Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var groupId = params.groupId;
     var url = endpoint + 'api/Groups/' + groupId + '/posts?access_token=' + accessToken;
@@ -229,7 +228,7 @@ function createGroupPost(params) {
  */
 
 function getGroupPost(params) {
-  return new _es6Promise.Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
     var filter_str = JSON.stringify({ include: ['owner', { comments: ['owner'] }] });
@@ -249,7 +248,7 @@ function getGroupPost(params) {
  */
 
 function updateGroupPost(params) {
-  return new _es6Promise.Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
     var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
@@ -276,7 +275,7 @@ function updateGroupPost(params) {
  */
 
 function removeGroupPost(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var accessToken = params.accessToken;
     var postId = params.postId;
     var url = endpoint + 'api/Posts/' + postId + '?access_token' + accessToken;
@@ -291,7 +290,7 @@ function removeGroupPost(params) {
  */
 
 function commentOnGroupPost(params) {
-  return new _es6Promise.Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
     var uid = params.uid;
@@ -323,7 +322,7 @@ function commentOnGroupPost(params) {
 function updateProfile(params) {
   var id = params.id;
   var accessToken = params.accessToken;
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + id + '?access_token=' + accessToken;
     _request2['default'].put({
       url: url,
@@ -340,7 +339,7 @@ function updateProfile(params) {
  */
 
 function loginProfile(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/login';
     _request2['default'].post({
       url: url,
@@ -356,7 +355,7 @@ function loginProfile(params) {
  */
 
 function logoutProfile(params) {
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
     _request2['default'].post({
       url: url,
@@ -380,7 +379,7 @@ function saveLike(params) {
   var item_id = params.item_id;
   var value = params.value;
 
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
     _request2['default'].post({
       url: url,
@@ -407,7 +406,7 @@ function updateLike(params) {
   var value = params.value;
   var id = params.id;
 
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
     _request2['default'].put({
       url: url,
@@ -432,7 +431,7 @@ function removeLike(params) {
   var accessToken = params.accessToken;
   var id = params.id;
 
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + uid + '/likes/' + id + '?access_token=' + accessToken;
     _request2['default'].del({
       url: url,
@@ -454,13 +453,42 @@ function resetLikes(params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
 
-  return new _es6Promise.Promise(function (resolve) {
+  return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/' + uid + '/likes?access_token=' + accessToken;
     _request2['default'].del({
       url: url,
       form: {}
     }, function (err, httpResponse) {
       resolve(httpResponse);
+    });
+  });
+}
+
+/**
+ * Requests a specific user profile from the profile service.
+ * @param {{agencyid: string, loanerid: string}} params
+ * @see http://profile-i01.dbc.dk:3001/explorer/#!/MobilSoegProfiles/findMobilSoegProfile
+ */
+
+function findMobilSoegProfile(params) {
+  var loanerid = params.loanerid;
+  var agencyid = params.agencyid;
+
+  var url = endpoint + 'api/MobilSoegProfiles/findMobilSoegProfile';
+
+  return new Promise(function (resolve, reject) {
+    _request2['default'].get({
+      url: url,
+      json: {
+        agencyid: agencyid,
+        loanerid: loanerid
+      }
+    }, function (err, httpResponse) {
+      if (err) {
+        reject({ err: err, httpResponse: httpResponse });
+      } else {
+        resolve(httpResponse);
+      }
     });
   });
 }
@@ -504,6 +532,7 @@ var METHODS = {
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike,
-  resetLikes: resetLikes
+  resetLikes: resetLikes,
+  findMobilSoegProfile: findMobilSoegProfile
 };
 exports.METHODS = METHODS;
