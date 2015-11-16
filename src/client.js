@@ -524,3 +524,4 @@ export const METHODS = {
   resetLikes: resetLikes,
   findMobilSoegProfile: findMobilSoegProfile
 };
+
