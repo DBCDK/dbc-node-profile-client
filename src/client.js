@@ -1,6 +1,5 @@
 'use strict';
 
-import {Promise} from 'es6-promise';
 import request from 'request';
 
 let endpoint = null;
@@ -77,7 +76,6 @@ export function createGroup(params) {
   });
 }
 
-
 /**
  * Makes a Profile member of a Group in Loopback
  */
@@ -97,7 +95,6 @@ export function joinGroup(params) {
     );
   });
 }
-
 
 /**
  * Remove a Profile member from a Group in Loopback
@@ -119,7 +116,6 @@ export function leaveGroup(params) {
   });
 }
 
-
 /**
  * Persist Group to Loopback
  */
@@ -140,7 +136,6 @@ export function updateGroup(params) {
     );
   });
 }
-
 
 /**
  * Fetches a Group in Loopback
@@ -460,6 +455,36 @@ export function resetLikes(params) {
 }
 
 /**
+ * Requests a specific user profile from the profile service.
+ * @param {{agencyid: string, loanerid: string}} params
+ * @see http://profile-i01.dbc.dk:3001/explorer/#!/MobilSoegProfiles/findMobilSoegProfile
+ */
+export function findMobilSoegProfile(params) {
+  const {loanerid, agencyid} = params;
+  const url = `${endpoint}api/MobilSoegProfiles/findMobilSoegProfile`;
+
+  return new Promise((resolve, reject) => {
+    request.get(
+      {
+        url: url,
+        json: {
+          agencyid: agencyid,
+          loanerid: loanerid
+        }
+      },
+      (err, httpResponse) => {
+        if (err) {
+          reject({err: err, httpResponse: httpResponse});
+        }
+        else {
+          resolve(httpResponse);
+        }
+      }
+    );
+  });
+}
+
+/**
  * Setting the necessary paramerters for the client to be usable.
  * The endpoint is only set if endpoint is null to allow setting it through
  * environment variables.
@@ -496,5 +521,6 @@ export const METHODS = {
   saveLike: saveLike,
   removeLike: removeLike,
   updateLike: updateLike,
-  resetLikes: resetLikes
+  resetLikes: resetLikes,
+  findMobilSoegProfile: findMobilSoegProfile
 };
