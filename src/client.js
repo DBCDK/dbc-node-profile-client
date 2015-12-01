@@ -2,12 +2,10 @@
 
 import request from 'request';
 
-let endpoint = null;
-
 /**
  * Verifies a Profile in Loopback using verification token sent by email.
  */
-export function verifyEmail(params) {
+function verifyEmail(endpoint, params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/confirm';
 
@@ -23,7 +21,7 @@ export function verifyEmail(params) {
 /**
  * Creates a new Profile in Loopback
  */
-export function createProfile(params) {
+function createProfile(endpoint, params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles';
     request.post(
@@ -41,7 +39,7 @@ export function createProfile(params) {
 /**
  * Fetches a Profile in Loopback
  */
-export function getProfile(params) {
+function getProfile(endpoint, params) {
   return new Promise((resolve) => {
     const id = params.id;
     const accessToken = params.accessToken;
@@ -61,7 +59,7 @@ export function getProfile(params) {
 /**
  * Creates a new Group in Loopback
  */
-export function createGroup(params) {
+function createGroup(endpoint, params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Groups';
     request.post(
@@ -79,7 +77,7 @@ export function createGroup(params) {
 /**
  * Makes a Profile member of a Group in Loopback
  */
-export function joinGroup(params) {
+function joinGroup(endpoint, params) {
   return new Promise((resolve) => {
     const groupId = params.groupId;
     const memberId = params.memberId;
@@ -99,7 +97,7 @@ export function joinGroup(params) {
 /**
  * Remove a Profile member from a Group in Loopback
  */
-export function leaveGroup(params) {
+function leaveGroup(endpoint, params) {
   return new Promise((resolve) => {
     const groupId = params.groupId;
     const memberId = params.memberId;
@@ -119,7 +117,7 @@ export function leaveGroup(params) {
 /**
  * Persist Group to Loopback
  */
-export function updateGroup(params) {
+function updateGroup(endpoint, params) {
   const id = params.id;
   const accessToken = params.accessToken;
   return new Promise((resolve) => {
@@ -140,7 +138,7 @@ export function updateGroup(params) {
 /**
  * Fetches a Group in Loopback
  */
-export function getGroup(params) {
+function getGroup(endpoint, params) {
   return new Promise((resolve) => {
     const id = params.id; // {include: ['owner', {comments: ['owner']}]}
     const filter_str = JSON.stringify({include: [{posts: ['owner', {comments: ['owner']}]}, 'members']});
@@ -159,7 +157,7 @@ export function getGroup(params) {
 /**
  * Searches through Groups in Loopback
  */
-export function queryGroups(params) {
+function queryGroups(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     var pattern = new RegExp('.*' + params.query + '.*', 'i');
@@ -177,7 +175,7 @@ export function queryGroups(params) {
 /**
  * Create a Post
  */
-export function createGroupPost(params) {
+function createGroupPost(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const groupId = params.groupId;
@@ -206,7 +204,7 @@ export function createGroupPost(params) {
 /**
  * Gets a specific Post
  */
-export function getGroupPost(params) {
+function getGroupPost(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
@@ -225,7 +223,7 @@ export function getGroupPost(params) {
 /**
  * Update a specific Post
  */
-export function updateGroupPost(params) {
+function updateGroupPost(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
@@ -251,7 +249,7 @@ export function updateGroupPost(params) {
 /**
  * Delete a specific Post
  */
-export function removeGroupPost(params) {
+function removeGroupPost(endpoint, params) {
   return new Promise((resolve) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
@@ -265,7 +263,7 @@ export function removeGroupPost(params) {
 /**
  * Comments on a post
  */
-export function commentOnGroupPost(params) {
+function commentOnGroupPost(endpoint, params) {
   return new Promise((resolve, reject) => {
     const accessToken = params.accessToken;
     const postId = params.postId;
@@ -294,7 +292,7 @@ export function commentOnGroupPost(params) {
 /**
  * Persist Profile to Loopback
  */
-export function updateProfile(params) {
+function updateProfile(endpoint, params) {
   const id = params.id;
   const accessToken = params.accessToken;
   return new Promise((resolve) => {
@@ -315,7 +313,7 @@ export function updateProfile(params) {
 /**
  * Login Profile in Loopback
  */
-export function loginProfile(params) {
+function loginProfile(endpoint, params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/login';
     request.post(
@@ -333,7 +331,7 @@ export function loginProfile(params) {
 /**
  * TODO: Comment this
  */
-export function logoutProfile(params) {
+function logoutProfile(endpoint, params) {
   return new Promise((resolve) => {
     const url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
     request.post(
@@ -354,7 +352,7 @@ export function logoutProfile(params) {
  * @param {object }params
  * @return {Promise}
  */
-export function saveLike(params) {
+function saveLike(endpoint, params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
   const item_id = params.item_id;
@@ -383,7 +381,7 @@ export function saveLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-export function updateLike(params) {
+function updateLike(endpoint, params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
   const value = params.value;
@@ -411,7 +409,7 @@ export function updateLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-export function removeLike(params) {
+function removeLike(endpoint, params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
   const id = params.id;
@@ -436,7 +434,7 @@ export function removeLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-export function resetLikes(params) {
+function resetLikes(endpoint, params) {
   const uid = params.uid;
   const accessToken = params.accessToken;
 
@@ -459,7 +457,7 @@ export function resetLikes(params) {
  * @param {{agencyid: string, loanerid: string}} params
  * @see http://profile-i01.dbc.dk:3001/explorer/#!/MobilSoegProfiles/findMobilSoegProfile
  */
-export function findMobilSoegProfile(params) {
+function findMobilSoegProfile(endpoint, params) {
   const {loanerid, agencyid} = params;
   const url = `${endpoint}api/MobilSoegProfiles/findMobilSoegProfile`;
 
@@ -492,36 +490,34 @@ export function findMobilSoegProfile(params) {
  * @param {Object} config Config object with the necessary parameters to use
  * the webservice
  */
-export function init(config = null) {
+export default function ProfileClient(config = null) {
 
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }
-  endpoint = config.endpoint;
+
+  return {
+    verifyEmail: verifyEmail.bind(null, config.endpoint),
+    createProfile: createProfile.bind(null, config.endpoint),
+    updateProfile: updateProfile.bind(null, config.endpoint),
+    getProfile: getProfile.bind(null, config.endpoint),
+    loginProfile: loginProfile.bind(null, config.endpoint),
+    logoutProfile: logoutProfile.bind(null, config.endpoint),
+    getGroup: getGroup.bind(null, config.endpoint),
+    joinGroup: joinGroup.bind(null, config.endpoint),
+    leaveGroup: leaveGroup.bind(null, config.endpoint),
+    createGroup: createGroup.bind(null, config.endpoint),
+    updateGroup: updateGroup.bind(null, config.endpoint),
+    queryGroups: queryGroups.bind(null, config.endpoint),
+    createGroupPost: createGroupPost.bind(null, config.endpoint),
+    getGroupPost: getGroupPost.bind(null, config.endpoint),
+    updateGroupPost: updateGroupPost.bind(null, config.endpoint),
+    removeGroupPost: removeGroupPost.bind(null, config.endpoint),
+    commentOnGroupPost: commentOnGroupPost.bind(null, config.endpoint),
+    saveLike: saveLike.bind(null, config.endpoint),
+    removeLike: removeLike.bind(null, config.endpoint),
+    updateLike: updateLike.bind(null, config.endpoint),
+    resetLikes: resetLikes.bind(null, config.endpoint),
+    findMobilSoegProfile: findMobilSoegProfile.bind(null, config.endpoint)
+  };
 }
-
-export const METHODS = {
-  verifyEmail: verifyEmail,
-  createProfile: createProfile,
-  updateProfile: updateProfile,
-  getProfile: getProfile,
-  loginProfile: loginProfile,
-  logoutProfile: logoutProfile,
-  getGroup: getGroup,
-  joinGroup: joinGroup,
-  leaveGroup: leaveGroup,
-  createGroup: createGroup,
-  updateGroup: updateGroup,
-  queryGroups: queryGroups,
-  createGroupPost: createGroupPost,
-  getGroupPost: getGroupPost,
-  updateGroupPost: updateGroupPost,
-  removeGroupPost: removeGroupPost,
-  commentOnGroupPost: commentOnGroupPost,
-  saveLike: saveLike,
-  removeLike: removeLike,
-  updateLike: updateLike,
-  resetLikes: resetLikes,
-  findMobilSoegProfile: findMobilSoegProfile
-};
-
