@@ -3,29 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.verifyEmail = verifyEmail;
-exports.createProfile = createProfile;
-exports.getProfile = getProfile;
-exports.createGroup = createGroup;
-exports.joinGroup = joinGroup;
-exports.leaveGroup = leaveGroup;
-exports.updateGroup = updateGroup;
-exports.getGroup = getGroup;
-exports.queryGroups = queryGroups;
-exports.createGroupPost = createGroupPost;
-exports.getGroupPost = getGroupPost;
-exports.updateGroupPost = updateGroupPost;
-exports.removeGroupPost = removeGroupPost;
-exports.commentOnGroupPost = commentOnGroupPost;
-exports.updateProfile = updateProfile;
-exports.loginProfile = loginProfile;
-exports.logoutProfile = logoutProfile;
-exports.saveLike = saveLike;
-exports.updateLike = updateLike;
-exports.removeLike = removeLike;
-exports.resetLikes = resetLikes;
-exports.findMobilSoegProfile = findMobilSoegProfile;
-exports.init = init;
+exports['default'] = ProfileClient;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -33,13 +11,10 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
-var endpoint = null;
-
 /**
  * Verifies a Profile in Loopback using verification token sent by email.
  */
-
-function verifyEmail(params) {
+function verifyEmail(endpoint, params) {
   return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/confirm';
 
@@ -55,8 +30,7 @@ function verifyEmail(params) {
 /**
  * Creates a new Profile in Loopback
  */
-
-function createProfile(params) {
+function createProfile(endpoint, params) {
   return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles';
     _request2['default'].post({
@@ -71,8 +45,7 @@ function createProfile(params) {
 /**
  * Fetches a Profile in Loopback
  */
-
-function getProfile(params) {
+function getProfile(endpoint, params) {
   return new Promise(function (resolve) {
     var id = params.id;
     var accessToken = params.accessToken;
@@ -89,8 +62,7 @@ function getProfile(params) {
 /**
  * Creates a new Group in Loopback
  */
-
-function createGroup(params) {
+function createGroup(endpoint, params) {
   return new Promise(function (resolve) {
     var url = endpoint + 'api/Groups';
     _request2['default'].post({
@@ -105,8 +77,7 @@ function createGroup(params) {
 /**
  * Makes a Profile member of a Group in Loopback
  */
-
-function joinGroup(params) {
+function joinGroup(endpoint, params) {
   return new Promise(function (resolve) {
     var groupId = params.groupId;
     var memberId = params.memberId;
@@ -123,8 +94,7 @@ function joinGroup(params) {
 /**
  * Remove a Profile member from a Group in Loopback
  */
-
-function leaveGroup(params) {
+function leaveGroup(endpoint, params) {
   return new Promise(function (resolve) {
     var groupId = params.groupId;
     var memberId = params.memberId;
@@ -141,8 +111,7 @@ function leaveGroup(params) {
 /**
  * Persist Group to Loopback
  */
-
-function updateGroup(params) {
+function updateGroup(endpoint, params) {
   var id = params.id;
   var accessToken = params.accessToken;
   return new Promise(function (resolve) {
@@ -160,8 +129,7 @@ function updateGroup(params) {
 /**
  * Fetches a Group in Loopback
  */
-
-function getGroup(params) {
+function getGroup(endpoint, params) {
   return new Promise(function (resolve) {
     var id = params.id; // {include: ['owner', {comments: ['owner']}]}
     var filter_str = JSON.stringify({ include: [{ posts: ['owner', { comments: ['owner'] }] }, 'members'] });
@@ -177,8 +145,7 @@ function getGroup(params) {
 /**
  * Searches through Groups in Loopback
  */
-
-function queryGroups(params) {
+function queryGroups(endpoint, params) {
   return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var pattern = new RegExp('.*' + params.query + '.*', 'i');
@@ -196,8 +163,7 @@ function queryGroups(params) {
 /**
  * Create a Post
  */
-
-function createGroupPost(params) {
+function createGroupPost(endpoint, params) {
   return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var groupId = params.groupId;
@@ -226,8 +192,7 @@ function createGroupPost(params) {
 /**
  * Gets a specific Post
  */
-
-function getGroupPost(params) {
+function getGroupPost(endpoint, params) {
   return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
@@ -246,8 +211,7 @@ function getGroupPost(params) {
 /**
  * Update a specific Post
  */
-
-function updateGroupPost(params) {
+function updateGroupPost(endpoint, params) {
   return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
@@ -273,8 +237,7 @@ function updateGroupPost(params) {
 /**
  * Delete a specific Post
  */
-
-function removeGroupPost(params) {
+function removeGroupPost(endpoint, params) {
   return new Promise(function (resolve) {
     var accessToken = params.accessToken;
     var postId = params.postId;
@@ -288,8 +251,7 @@ function removeGroupPost(params) {
 /**
  * Comments on a post
  */
-
-function commentOnGroupPost(params) {
+function commentOnGroupPost(endpoint, params) {
   return new Promise(function (resolve, reject) {
     var accessToken = params.accessToken;
     var postId = params.postId;
@@ -318,8 +280,7 @@ function commentOnGroupPost(params) {
 /**
  * Persist Profile to Loopback
  */
-
-function updateProfile(params) {
+function updateProfile(endpoint, params) {
   var id = params.id;
   var accessToken = params.accessToken;
   return new Promise(function (resolve) {
@@ -337,8 +298,7 @@ function updateProfile(params) {
 /**
  * Login Profile in Loopback
  */
-
-function loginProfile(params) {
+function loginProfile(endpoint, params) {
   return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/login';
     _request2['default'].post({
@@ -353,8 +313,7 @@ function loginProfile(params) {
 /**
  * TODO: Comment this
  */
-
-function logoutProfile(params) {
+function logoutProfile(endpoint, params) {
   return new Promise(function (resolve) {
     var url = endpoint + 'api/Profiles/logout?access_token=' + params.accessToken;
     _request2['default'].post({
@@ -372,8 +331,7 @@ function logoutProfile(params) {
  * @param {object }params
  * @return {Promise}
  */
-
-function saveLike(params) {
+function saveLike(endpoint, params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
   var item_id = params.item_id;
@@ -399,8 +357,7 @@ function saveLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-
-function updateLike(params) {
+function updateLike(endpoint, params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
   var value = params.value;
@@ -425,8 +382,7 @@ function updateLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-
-function removeLike(params) {
+function removeLike(endpoint, params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
   var id = params.id;
@@ -448,8 +404,7 @@ function removeLike(params) {
  * @param {object} params
  * @return {Promise}
  */
-
-function resetLikes(params) {
+function resetLikes(endpoint, params) {
   var uid = params.uid;
   var accessToken = params.accessToken;
 
@@ -469,8 +424,7 @@ function resetLikes(params) {
  * @param {{agencyid: string, loanerid: string}} params
  * @see http://profile-i01.dbc.dk:3001/explorer/#!/MobilSoegProfiles/findMobilSoegProfile
  */
-
-function findMobilSoegProfile(params) {
+function findMobilSoegProfile(endpoint, params) {
   var loanerid = params.loanerid;
   var agencyid = params.agencyid;
 
@@ -502,37 +456,37 @@ function findMobilSoegProfile(params) {
  * the webservice
  */
 
-function init() {
+function ProfileClient() {
   var config = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
   if (!config || !config.endpoint) {
     throw new Error('Expected config object but got null or no endpoint provided');
   }
-  endpoint = config.endpoint;
+
+  return {
+    verifyEmail: verifyEmail.bind(null, config.endpoint),
+    createProfile: createProfile.bind(null, config.endpoint),
+    updateProfile: updateProfile.bind(null, config.endpoint),
+    getProfile: getProfile.bind(null, config.endpoint),
+    loginProfile: loginProfile.bind(null, config.endpoint),
+    logoutProfile: logoutProfile.bind(null, config.endpoint),
+    getGroup: getGroup.bind(null, config.endpoint),
+    joinGroup: joinGroup.bind(null, config.endpoint),
+    leaveGroup: leaveGroup.bind(null, config.endpoint),
+    createGroup: createGroup.bind(null, config.endpoint),
+    updateGroup: updateGroup.bind(null, config.endpoint),
+    queryGroups: queryGroups.bind(null, config.endpoint),
+    createGroupPost: createGroupPost.bind(null, config.endpoint),
+    getGroupPost: getGroupPost.bind(null, config.endpoint),
+    updateGroupPost: updateGroupPost.bind(null, config.endpoint),
+    removeGroupPost: removeGroupPost.bind(null, config.endpoint),
+    commentOnGroupPost: commentOnGroupPost.bind(null, config.endpoint),
+    saveLike: saveLike.bind(null, config.endpoint),
+    removeLike: removeLike.bind(null, config.endpoint),
+    updateLike: updateLike.bind(null, config.endpoint),
+    resetLikes: resetLikes.bind(null, config.endpoint),
+    findMobilSoegProfile: findMobilSoegProfile.bind(null, config.endpoint)
+  };
 }
 
-var METHODS = {
-  verifyEmail: verifyEmail,
-  createProfile: createProfile,
-  updateProfile: updateProfile,
-  getProfile: getProfile,
-  loginProfile: loginProfile,
-  logoutProfile: logoutProfile,
-  getGroup: getGroup,
-  joinGroup: joinGroup,
-  leaveGroup: leaveGroup,
-  createGroup: createGroup,
-  updateGroup: updateGroup,
-  queryGroups: queryGroups,
-  createGroupPost: createGroupPost,
-  getGroupPost: getGroupPost,
-  updateGroupPost: updateGroupPost,
-  removeGroupPost: removeGroupPost,
-  commentOnGroupPost: commentOnGroupPost,
-  saveLike: saveLike,
-  removeLike: removeLike,
-  updateLike: updateLike,
-  resetLikes: resetLikes,
-  findMobilSoegProfile: findMobilSoegProfile
-};
-exports.METHODS = METHODS;
+module.exports = exports['default'];

@@ -1,11 +1,11 @@
 'use strict';
 
 import {assert} from 'chai';
-import * as methods from '../client.js';
-import {each} from 'lodash';
+import ProfileClient from '../client.js';
 
 describe('Test methods in client.js', () => {
-  /* eslint-disable */
+  const methods = ProfileClient({endpoint: 'some_url'});
+
   it('Should ensure verifyEmail is present', () => {
     assert.isFunction(methods.verifyEmail, 'verifyEmail was found');
   });
@@ -42,25 +42,11 @@ describe('Test methods in client.js', () => {
     assert.isFunction(methods.removeLike, 'removeLike was found');
   });
 
-  it('Should ensure init is present', () => {
-    assert.isFunction(methods.init, 'init was found');
-  });
-
-  it('Should ensure METHODS is present', () => {
-    assert.isObject(methods.METHODS, 'METHODS was found');
-  });
-
-  it('Should ensure all methods found in METHODS are present', () => {
-    each(methods.METHODS, (method, key) => {
-      assert.isFunction(methods[key], 'found method: ' + key);
-    });
-  });
-
   it('Should throw when no config object is provided to init', () => {
-    assert.throws(methods.init, Error, 'Expected config object but got null or no endpoint provided');
-  })
+    assert.throws(ProfileClient, Error, 'Expected config object but got null or no endpoint provided');
+  });
 
   it('Should throw when config object is provided but no endpoint to init', () => {
-    assert.throws(() => methods.init({}), Error, 'Expected config object but got null or no endpoint provided');
-  })
+    assert.throws(() => ProfileClient({}), Error, 'Expected config object but got null or no endpoint provided');
+  });
 });
